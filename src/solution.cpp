@@ -75,7 +75,6 @@ public:
         }
 
         blocks.push_back(block);
-
         return evicted;
     }
 
@@ -96,7 +95,6 @@ public:
 class MemorySystem 
 {
 private:
-
     Cache L1;
     Cache L2;
     Cache L3;
@@ -112,13 +110,11 @@ private:
             if (!e2.empty()) {
 
                 L3.insert(e2);
-
             }
         }
     }
 
 public:
-
     int ram_access;
  
     MemorySystem()
@@ -131,11 +127,8 @@ public:
 
     int access(string block) 
     {
-
-
         if (L1.contains(block)) 
         {
-
             cout << " -> HIT L1";
             return L1.getLatency();
         }
@@ -143,9 +136,7 @@ public:
 
         if (L2.contains(block)) 
         {
-
             cout << " -> HIT L2";
-
             L2.remove(block);
             promoteToL1(block);
             return L2.getLatency();
@@ -157,9 +148,7 @@ public:
         {
             cout << " -> HIT L3";
             L3.remove(block);
-
             promoteToL1(block);
-
             return L3.getLatency();
         }
 
@@ -167,45 +156,31 @@ public:
         cout << " -> Fetching RAM";
 
         ram_access++;
-
         promoteToL1(block);
-
         return 200;
     }
 
     void printState() 
     {
-
         cout << "\n";
-
         L1.print();
-
         cout << "\n";
-
         L2.print();
-
         cout << "\n";
-
         L3.print();
-
         cout << "\n";
     }
 
 };
 
-class Simulator {
-
+class Simulator 
+{
 private:
 
     vector<Task> tasks;
-
     MemorySystem memory;
-
     int quantum;
-
     long long totalCycles;
-
-
 public:
 
     Simulator(int q) 
@@ -213,7 +188,7 @@ public:
         quantum = q;
         totalCycles = 0;
     }
-
+    
     void loadTask(string filename) 
     {
 
