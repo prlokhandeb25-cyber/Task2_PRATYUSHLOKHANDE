@@ -76,12 +76,12 @@ When a cache becomes full:
 # Future Improvements
 
 
-*LRU eviction 
+- LRU eviction 
 
-*Multi-core 
+- Multi-core 
 
-*Multiple scheduling algorithms
+- Multiple scheduling algorithms
 
-*Write-back policy 
+- Write-back policy 
 
-*ASCII live animation
+- ASCII live animation
