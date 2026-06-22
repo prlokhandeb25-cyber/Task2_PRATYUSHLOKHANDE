@@ -188,7 +188,7 @@ public:
         quantum = q;
         totalCycles = 0;
     }
-    
+
     void loadTask(string filename) 
     {
 
@@ -280,7 +280,7 @@ public:
                      << " completed\n";
             }
         }
-        cout << "\n=== Final Results ===" << "Total Cycles: " << totalCycles<< " Tasks Completed: " << completed<< " Scheduler: Round Robin (quantum =" <<"quantum"<< " RAM Accesses: " << memory.ram_access << endl;
+        cout << "\n=== Final Results ===" << "Total Cycles: " << totalCycles<< " Tasks Completed: " << completed<< " Scheduler: Round Robin (quantum =" <<quantum<<")"<< " RAM Accesses: " << memory.ram_access << endl;
     }
 
 };
