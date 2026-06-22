@@ -8,7 +8,8 @@
 
 using namespace std;
 
-class Task {
+class Task 
+{
 public:
     string id;
     int burst;
@@ -16,11 +17,13 @@ public:
     vector<string> mem_requests;
     int current_mem_index;
 
-    Task() {
+    Task() 
+    {
         current_mem_index = 0;
     }
 
-    string getMemoryRequest() {
+    string getMemoryRequest() 
+    {
         if (mem_requests.empty())
             return "";
 
@@ -28,9 +31,8 @@ public:
     }
 };
 
-
-class Cache {
-
+class Cache 
+{
 private:
     string name;
     int capacity;
@@ -38,34 +40,29 @@ private:
     vector<string> blocks;
 
 public:
-
     Cache(string n, int c, int l)
         : name(n), capacity(c), latency(l) {}
 
-
-    bool contains(string block) {
-
+    bool contains(string block) 
+    {
         return find(blocks.begin(), blocks.end(), block)
                != blocks.end();
     }
 
-
-    int getLatency() {
+    int getLatency() 
+    {
         return latency;
     }
 
-
-    void remove(string block) {
-
+    void remove(string block) 
+    {
         auto it = find(blocks.begin(), blocks.end(), block);
-
         if (it != blocks.end())
             blocks.erase(it);
     }
 
-
-    string insert(string block) {
-
+    string insert(string block) 
+    {
         if (contains(block))
             return "";
 
@@ -82,11 +79,9 @@ public:
         return evicted;
     }
 
-
-    void print() {
-
+    void print() 
+    {
         cout << name << ": [";
-
         for (int i = 0; i < blocks.size(); i++) {
 
             cout << blocks[i];
@@ -94,28 +89,24 @@ public:
             if (i != blocks.size() - 1)
                 cout << ", ";
         }
-
         cout << "]";
     }
 };
 
-
-
-class MemorySystem {
-
+class MemorySystem 
+{
 private:
 
     Cache L1;
     Cache L2;
     Cache L3;
 
-
-    void promoteToL1(string block) {
-
+    void promoteToL1(string block) 
+    {
         string e1 = L1.insert(block);
 
-        if (!e1.empty()) {
-
+        if (!e1.empty()) 
+        {
             string e2 = L2.insert(e1);
 
             if (!e2.empty()) {
@@ -126,69 +117,45 @@ private:
         }
     }
 
-
 public:
 
     int ram_access;
-    int l1_hits;
-    int l2_hits;
-    int l3_hits;
-    int misses;
-
-
+ 
     MemorySystem()
         : L1("L1",32,4),
           L2("L2",128,12),
           L3("L3",512,40)
     {
         ram_access = 0;
-        l1_hits = 0;
-        l2_hits = 0;
-        l3_hits = 0;
-        misses = 0;
     }
 
+    int access(string block) 
+    {
 
 
-    int access(string block) {
-
-
-        if (L1.contains(block)) {
+        if (L1.contains(block)) 
+        {
 
             cout << " -> HIT L1";
-
-            l1_hits++;
-
             return L1.getLatency();
         }
-
-
         cout << " -> MISS L1";
 
-
-        if (L2.contains(block)) {
+        if (L2.contains(block)) 
+        {
 
             cout << " -> HIT L2";
 
-            l2_hits++;
-
             L2.remove(block);
-
             promoteToL1(block);
-
             return L2.getLatency();
         }
 
-
         cout << " -> MISS L2";
 
-
-        if (L3.contains(block)) {
-
+        if (L3.contains(block)) 
+        {
             cout << " -> HIT L3";
-
-            l3_hits++;
-
             L3.remove(block);
 
             promoteToL1(block);
@@ -196,26 +163,18 @@ public:
             return L3.getLatency();
         }
 
-
         cout << " -> MISS L3";
-
         cout << " -> Fetching RAM";
-
-
-        misses++;
 
         ram_access++;
 
-
         promoteToL1(block);
-
 
         return 200;
     }
 
-
-
-    void printState() {
+    void printState() 
+    {
 
         cout << "\n";
 
@@ -234,8 +193,6 @@ public:
 
 };
 
-
-
 class Simulator {
 
 private:
@@ -251,187 +208,112 @@ private:
 
 public:
 
-    Simulator(int q) {
-
+    Simulator(int q) 
+    {
         quantum = q;
-
         totalCycles = 0;
     }
 
-
-
-    void loadTask(string filename) {
+    void loadTask(string filename) 
+    {
 
         ifstream file(filename);
 
-
-        if (!file.is_open()) {
-
+        if (!file.is_open()) 
+        {
             cout << "File not found\n";
-
             return;
         }
-
-
         string line;
 
-
-        while (getline(file,line)) {
-
-
+        while (getline(file,line)) 
+        {
             if (line.empty())
                 continue;
 
-
             stringstream ss(line);
 
-
             string token;
-
-
             Task t;
-
 
             ss >> token;
             ss >> t.id;
 
-
             ss >> token;
             ss >> t.burst;
 
-
             ss >> token;
-
-
             t.remaining = t.burst;
-
 
             string block;
 
-
-            while (ss >> block) {
-
+            while (ss >> block) 
+            {
                 t.mem_requests.push_back(block);
             }
-
 
             tasks.push_back(t);
         }
     }
 
-
-
-    void roundRobin() {
-
-
+    void roundRobin() 
+    {
         queue<int> ready;
-
-
         for (int i = 0; i < tasks.size(); i++)
             ready.push(i);
-
-
 
         int completed = 0;
 
         int cycle = 1;
-
-
-
-        while (!ready.empty()) {
-
-
+        while (!ready.empty()) 
+        {
             int index = ready.front();
-
             ready.pop();
-
-
             Task &current = tasks[index];
-
 
             int run = min(quantum,
                           current.remaining);
 
-
-
-            for (int i = 0; i < run; i++) {
-
-
+            for (int i = 0; i < run; i++) 
+            {
                 string request =
                 current.getMemoryRequest();
 
-
-
-                cout << "\nCycle "
-                     << cycle
-                     << " Running: "
-                     << current.id
-                     << " Requesting: "
-                     << request;
-
-
-
+                cout << "\nCycle "<<cycle<<" Running: "<<current.id<<" Requesting: "<<request;
                 int latency =
                 memory.access(request);
-
-
 
                 cout << "\nLatency: "
                      << latency
                      << " cycles\n";
 
-
-
                 totalCycles += latency;
-
-
-
                 memory.printState();
-
-
-
                 current.current_mem_index++;
-
                 current.remaining--;
-
-
                 cycle++;
             }
-
-
-
-
-            if (current.remaining > 0) {
-
+            if (current.remaining > 0) 
+            {
                 ready.push(index);
-
             }
-            else {
-
+            else 
+            {
                 completed++;
-
                 cout << "\nTask "
                      << current.id
                      << " completed\n";
             }
-
         }
-
-
         cout << "\n=== Final Results ===" << "Total Cycles: " << totalCycles<< " Tasks Completed: " << completed<< " Scheduler: Round Robin (quantum =" <<"quantum"<< " RAM Accesses: " << memory.ram_access << endl;
-        
     }
 
 };
 
 int main() 
 {
-
     Simulator sim(3);
-
     sim.loadTask("input_task2.txt");
-
     sim.roundRobin();
-
     return 0;
 }
