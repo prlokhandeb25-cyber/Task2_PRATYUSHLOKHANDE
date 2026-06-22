@@ -73,52 +73,6 @@ When a cache becomes full:
 
 ---
 
-### Classes
-
-## Task
-
-Stores:
-
-- Task ID
-- Burst time
-- Remaining execution time
-- Memory requests
-
-
-## Cache
-
-Represents one cache level.
-
-Handles:
-
-- Searching blocks
-- FIFO eviction
-- Inserting blocks
-- Displaying cache state
-
-
-## MemorySystem
-
-Manages:
-
-- L1/L2/L3 hierarchy
-- Cache hits
-- RAM accesses
-
-
-## Simulator
-
-Handles:
-
-- Loading input
-- Round Robin scheduling
-- Execution cycles
-- Final results
-
-
----
-
-
 # Future Improvements
 
 
