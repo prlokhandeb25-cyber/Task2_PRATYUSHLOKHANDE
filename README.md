@@ -53,7 +53,7 @@ The memory system contains:
 | RAM | Unlimited | 200 cycles |
 
 ---
-If a block is found:
+If a block is found :
 
 - Access latency of that cache level is added.
 - Block is promoted back to L1.
