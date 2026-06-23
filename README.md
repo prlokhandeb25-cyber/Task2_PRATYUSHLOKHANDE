@@ -21,8 +21,8 @@ Every running program competes for two important resources:
 
 This simulator models both:
 
-- The **scheduler** decides which task gets CPU execution.
-- The **cache hierarchy** decides how quickly memory requests are served.
+- The scheduler decides which task gets CPU execution.
+- The cache hierarchy decides how quickly memory requests are served.
 
 The goal is to visualize how scheduling decisions and cache behavior affect total execution cycles.
 
@@ -47,10 +47,10 @@ The memory system contains:
 
 | Level | Capacity | Latency |
 |---|---|---|
-| L1 Cache | 32 blocks | 4 cycles |
-| L2 Cache | 128 blocks | 12 cycles |
-| L3 Cache | 512 blocks | 40 cycles |
-| RAM | Unlimited | 200 cycles |
+| L1 Cache | 32 slots | 4 cycles |
+| L2 Cache | 128 slots | 12 cycles |
+| L3 Cache | 512 slots | 40 cycles |
+| RAM | slots | 200 cycles |
 
 ---
 If a block is found :
