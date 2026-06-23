@@ -68,7 +68,8 @@ public:
 
         string evicted = "";
 
-        if (blocks.size() >= capacity) {
+        if (blocks.size() >= capacity) 
+        {
 
             evicted = blocks.front();
             blocks.erase(blocks.begin());
@@ -81,10 +82,9 @@ public:
     void print() 
     {
         cout << name << ": [";
-        for (int i = 0; i < blocks.size(); i++) {
-
+        for (int i = 0; i < blocks.size(); i++) 
+        {
             cout << blocks[i];
-
             if (i != blocks.size() - 1)
                 cout << ", ";
         }
@@ -176,13 +176,11 @@ public:
 class Simulator 
 {
 private:
-
     vector<Task> tasks;
     MemorySystem memory;
     int quantum;
     long long totalCycles;
 public:
-
     Simulator(int q) 
     {
         quantum = q;
@@ -282,7 +280,6 @@ public:
         }
         cout << "\n=== Final Results ===" << "Total Cycles: " << totalCycles<< " Tasks Completed: " << completed<< " Scheduler: Round Robin (quantum =" <<quantum<<")"<< " RAM Accesses: " << memory.ram_access << endl;
     }
-
 };
 
 int main() 
